@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    p:hover
+    {
+        background-color: yellow;
+        font-weight:bold;
+        border: 1px solid black;
+        display:inline-block;
+        padding: 10px;
+        cursor: pointer;
+        
+    }
+
+</style>
+<body>
+      <div class="hover">
+        <p>Hello World!</p>
+    </div>
+<hr>    
+<label for="country">chose country</label>
+<select id="country">
+    <option value="Jordan">Jordan</option>
+    <option value="Usa">Usa</option>
+    <option value="uk">uk</option>
+    <option value="Egypt">Egypt</option>
+    <option value="Japan">Japan</option>
+</select>
+
+<br>
+  <img id="flag" src="CopyofUntitled-c4fb4628-b137-449c-9abb-d92c2d7dd08b.webp" alt= "Jordan" width="100px" height="100px">
+
+  <script>
+    let countrySelect=document.getElementById("country")
+     let flagImg = document.getElementById("flag");
+    let flags=
+    {
+Usa:"Flag_of_the_United_States.svg.png",
+uk:"Flag_of_the_United_Kingdom_(3-5).svg.png",
+Egypt:"1f1ea-1f1ec.webp",
+Japan:"japanese-flag_23-2147506143.avif"
+    };
+    countrySelect.addEventListener("change",function()
+    {
+        let selected=this.value;
+        if(selected){
+            flagImg.src=flags[selected];
+            flagImg.style.display="block";
+        }
+        else{
+            flagImg.style.display="none";
+        }
+    }
+    );
+    
+  </script>
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+
+      .error {
+    color: red;
+    font-size: 14px;
+  }
+  .success {
+    color: green;
+    font-size: 14px;
+  }
+
+  .faq-item{
+    margin-bottom: 20px;
+   background-color:#555 ;
+   display: inline-block;
+   padding: 10px;
+
+  }
+
+.answer {
+      margin-top: 15px;
+      color: white;
+      display: none; 
+}
+
+    .answer.show {
+      display: block;
+    }
+
+    .toggle-btn {
+      background: none;
+      border: none;
+      color: #0066cc;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .toggle-btn:hover {
+      text-decoration: underline;
+    }
+
+    .box{
+        width: 200px;
+        height: 200px;
+        background-color: black;
+        animation: changeColor 20s infinite;
+    }
+    @keyframes changeColor{
+0%{background-color: yellow;}
+20%{background-color: aqua;}
+40%{background-color: crimson;}
+60%{background-color: darkviolet;}
+    }
+
+    
+</style>
+<body>
+<form id="passForm">
+    <label>Password:
+<input type="password" id="pass" name="pass">
+    </label>
+      <span id="passError" class="error"></span>
+  <br><br>
+   
+       <label>Confirm Password:
+<input type="password" id="Conpass" name="Conpass">
+    </label> 
+      <span id="confirmError" class="error"></span>
+  <br><br>
+
+<button type="submit">Submit</button>
+</form>    
+<hr>
+<div class="faq-contaner">
+    <div class="faq-item">
+        <div class="question">
+            What is Lorem Ipsum?
+        </div>
+        <div class="answer">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita harum odio, ullam magni rem doloremque enim eius beatae iusto quo consequuntur cum placeat repellat quae vel illum sint! Tempore, nostrum?
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque officiis quo hic quibusdam voluptatem sequi architecto suscipit laudantium debitis fuga, voluptatum ipsum necessitatibus ut neque numquam inventore nemo dolore consectetur.
+
+        </div>
+    </div>
+<div class="faq-item">
+    <div class="question">
+        why do we use it?
+        <button class="toggle-btn">Show</button>
+    </div>
+    <div class="answer">
+    It is a long established fact that a reader will be distracted by the readable content 
+        of a page when looking at its layout. The point of using Lorem Ipsum is that it has a 
+        more-or-less normal distribution of letters, as opposed to using 'Content here, content here'...
+    </div>
+</div>
+
+<div class="faq-item">
+      <div class="question">
+        Where does it come from?
+        <button class="toggle-btn">Show</button>
+      </div>
+      <div class="answer">
+        Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a 
+        piece of classical Latin literature from 45 BC, making it over 2000 years old...
+      </div>
+    </div>
+
+
+</div>
+
+<hr>
+<!--TextArea-->
+<div class="toolbar">
+
+<select id="fontFamily">
+
+<option value="Arial">Arial</option>
+<option value="Times New Roman">Times New Roman</option>
+<option value="Tahoma">Tahoma</option>
+
+</select>
+
+<select  id="fontSize">
+<option value="12px">12px</option>
+<option value="14px">14px</option>
+<option value="18px">18px</option>
+<option value="24px">24px</option>
+</select>
+
+<button onclick="format('bold')">Bold</button>
+<button onclick="format('italic')">Italic</button>
+<button onclick="format('underline')">Underline</button>
+
+</div>
+
+
+<div id="editor" contenteditable="true"></div>
+
+<!--Box-->
+<div class="box">
+</div>
+
+<script>
+    let passInput=document.getElementById("pass");
+    let confirmInput=document.getElementById("Conpass");
+    let passError=document.getElementById("passError");
+    let confirmError=document.getElementById("confirmError")
+    let form=document.getElementById("passForm");
+
+  passInput.addEventListener("input",validatePassword);
+confirmInput.addEventListener("input",validateConfirm);
+
+    form.addEventListener("submit",function(e){
+           e.preventDefault();
+           validatePassword();
+           validateConfirm();
+           if(passError.textContent===""&&confirmError.textContent===""){
+              alert("Password is valid and confirmed!");
+           }
+    });
+function validatePassword(){
+    if(passInput.value.length<6){
+        passError.textContent="Too short";
+    }
+    else{
+        passError.textContent="";
+    }
+     validateConfirm();
+}
+
+function validateConfirm() {
+    if(confirmInput.value !== passInput.value){
+      confirmError.textContent = "Passwords do not match";
+    } else {
+      confirmError.textContent = "";
+    }
+  }
+
+
+
+  document.querySelectorAll('.question').forEach(item =>{
+item.addEventListener('click',()=>{
+    let answer=item.nextElementSibling;
+    let btn=item.querySelector('.toggle-btn');
+
+    if(answer.classList.contains('show')){
+        answer.classList.remove('show');
+        btn.textContent='Show';
+    }else{
+        answer.classList.add('show');
+        btn.textContent='Hide';
+    }
+})
+
+  }
+  )
+
+//text Area
+
+let editor=document.getElementById("editor");
+let fontFamily=document.getElementById("fontFamily");
+let fontSize=document.getElementById("fontSize");
+let italic = document.getElementById("italic");
+let bold = document.getElementById("bold");
+let underline = document.getElementById("underline");
+
+function updateStyle(){
+    editor.style.fontFamily=fontFamily.value;
+       editor.style.fontSize = fontSize.value;
+    editor.style.fontStyle = italic.checked ? "italic" : "normal";
+    editor.style.fontWeight = bold.checked ? "bold" : "normal";
+    editor.style.textDecoration = underline.checked ? "underline" : "none";
+
+}
+
+  fontFamily.addEventListener("change", updateStyle);
+  fontSize.addEventListener("change", updateStyle);
+  italic.addEventListener("change", updateStyle);
+  bold.addEventListener("change", updateStyle);
+  underline.addEventListener("change", updateStyle);
+
+  function format(command) {
+  document.execCommand(command, false, null);
+}
+
+document.getElementById("fontFamily").addEventListener("change", function() {
+  document.execCommand("fontName", false, this.value);
+});
+
+document.getElementById("fontSize").addEventListener("change", function() {
+  document.execCommand("fontSize", false, this.value);
+});
+</script>
+</body>
+</html>
